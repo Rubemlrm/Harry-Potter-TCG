@@ -207,15 +207,15 @@ package harry_potter.game
 			rearrangeLessons();
 		}
 		
-		public function playCreature(card:Card):void {
+		public function playCreature(card:Card):Boolean {
 			//Must perform checks!
 			var numCOMCLessons:int = hasType[LessonTypes.convertToID(LessonTypes.CARE_OF_MAGICAL_CREATURES)];
 			if (numLessons < card.lessons_required[1]) {
 				new MessageWindow(this, "Can't play that card!", "You do not have enough lessons to play this card!");
-				return;
+				return false;
 			} else if (numCOMCLessons < 1 || numCOMCLessons < card.lessonsToDiscardWhenPlayed) {
 				new MessageWindow(this, "Can't play that card!", "You need more Care of Magical Creatures lesson in play \nto play this card!");
-				return;
+				return false;
 			}
 			
 			Global.console.print("Played Creature!");
