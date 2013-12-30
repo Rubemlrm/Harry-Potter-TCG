@@ -165,12 +165,12 @@ package harry_potter.game
 		 * Rotates the card from the horizontal position to the vertical position.
 		 * @param	e MouseEvent object for testing purposes, can be removed later
 		 */
-		public function rotate(e:MouseEvent = null):void {
+		public function rotate(e:MouseEvent = null, animDelay:Number = 0):void {
 			var targetRotation:int;
 			
 			(horizontal) ? targetRotation = 0 : targetRotation = 90;
 			
-			Tweener.addTween(this, { rotation: targetRotation, time: 0.2 } );
+			Tweener.addTween(this, { rotation: targetRotation, time: 0.2, delay: animDelay } );
 			horizontal = !horizontal;
 		}
 	}

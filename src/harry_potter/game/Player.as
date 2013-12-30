@@ -27,9 +27,12 @@ package harry_potter.game
 		private static const LESSONS_Y_SPACING:uint = 12;
 		private static const LESSONS_X_SPACING:uint = 75;
 		
+		private static const DISCARD_PILE_X:uint  = 90;
+		private static const DISCARD_PILE_Y:uint = 475 - Card.CARD_HEIGHT - 15;
+		
 		private var deck:Deck;
 		private var hand:Hand;
-		private var discard:Discard;
+		private var discardPile:DiscardPile;
 		
 		private var stats:StatsPanel;
 		
@@ -62,7 +65,7 @@ package harry_potter.game
 			
 			numLessons = 0;
 			hasType = [0, 0, 0, 0, 0];
-			discard = new Discard();
+			discardPile = new DiscardPile();
 			
 			stats = new StatsPanel();
 			addChild(stats);
@@ -214,24 +217,73 @@ package harry_potter.game
 				new MessageWindow(this, "Can't play that card!", "You do not have enough lessons to play this card!");
 				return false;
 			} else if (numCOMCLessons < 1 || numCOMCLessons < card.lessonsToDiscardWhenPlayed) {
-				new MessageWindow(this, "Can't play that card!", "You need more Care of Magical Creatures lesson in play \nto play this card!");
+				new MessageWindow(this, "Can't play that card!", "You need more Care of Magical Creatures lessons in play \nto play this card!");
 				return false;
 			}
 			
-			Global.console.print("Played Creature!");
 			//remove lessons from play
-				//rotate
-				//tween to x y location
-				//remove from lessons list
-				//add to discard list
-				//hide previous graphic for performance?
+			discardLessons(LessonTypes.convertToID(LessonTypes.CARE_OF_MAGICAL_CREATURES), card.lessonsToDiscardWhenPlayed);
+			
+			
 			//play creature card
 				//rotate
 				//tween to x y location
 				//adjust damage per turn value
 				//remove from hand list
 				//add to creatures list
+			
+			Global.console.print("Played Creature!");
+			return true;
 		}
+		
+		/**
+		 * Discards the given amount of lessons of the given type **ASSUMES THERE ARE ENOUGH LESSONS TO DISCARD**
+		 * @param	type		Must be a LessonTypes constant
+		 * @param	amount		Number of lessons to be discarded
+		 */
+		public function discardLessons(type:uint, amount:uint):void {
+			if (amount == 0) return;
+			
+			var discarded:uint = 0;
+			for (var i:int = 0; i < lessons.getNumCards(); i++) {
+				if (LessonTypes.convertToID(lessons.cardAt(i).lesson_provides[0]) == type) {
+					//Add to discard list
+					discard(lessons.cardAt(i), 0.2 + discarded*0.2);
+					//Remove from lessons list
+					lessons.remove(lessons.cardAt(i));
+					//update player variables
+					hasType[type]--;
+					numLessons--;
+					//update stats panel
+					stats.update(StatsPanel.LABEL_LESSONS, numLessons, hasType);
+					
+					//break when we're done
+					if (++discarded == amount) {
+						break;
+					}
+				}
+			}
+			
+			rearrangeLessons();
+		}
+		
+		/**
+		 * Moves the given card to this player's discard file
+		 * @param	card	the card to be discarded
+		 * @return			Whether the card was sucessfully discarded
+		 */
+		public function discard(card:Card, animDelay:Number = 0):void {
+			discardPile.add(card);
+			//tween to location
+			var targetX:int = DISCARD_PILE_X - discardPile.getNumCards() / 10;
+			var targetY:int = DISCARD_PILE_Y - discardPile.getNumCards() / 10;
+			
+			Tweener.addTween(card, { x: targetX, y: targetY, time: 1, delay: animDelay, transition: "easeOutQuad" } );
+			card.rotate(null, animDelay);
+			//switch index to top so that it displays on top of the discard pile
+			setChildIndex(card, numChildren - 1);
+		}
+		
 		
 		public function rearrangeLessons():void {
 			lessons.sort();
@@ -253,15 +305,6 @@ package harry_potter.game
 					Tweener.addTween(thisCard, { x: targetX, y:targetY, transition:"easeOutQuad", time: 0.7 } );
 				}
 			}
-		}
-		
-		/**
-		 * Moves the given card to this player's discard file
-		 * @param	card	the card to be discarded
-		 * @return			Whether the card was sucessfully discarded
-		 */
-		public function discard(card:Card):Boolean {
-			
 		}
 	}
 }
