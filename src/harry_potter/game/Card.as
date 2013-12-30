@@ -111,7 +111,10 @@ package harry_potter.game
 					break;
 				case "Creature":
 					lessons_required = new Array(LessonTypes.CARE_OF_MAGICAL_CREATURES, int(xmlData.numRequiredLessons));
+					
 					if (xmlData.lessonsToDiscardWhenPlayed.length() != 0) lessonsToDiscardWhenPlayed = int(xmlData.lessonsToDiscardWhenPlayed);
+					else lessonsToDiscardWhenPlayed = 0;
+					
 					damagePerTurn = int(xmlData.damage);
 					health = int(xmlData.health);
 					damageWhenPlayed = int(xmlData.damageDealtWhenPlayed);

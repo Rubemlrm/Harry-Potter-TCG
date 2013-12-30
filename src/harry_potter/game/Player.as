@@ -254,5 +254,14 @@ package harry_potter.game
 				}
 			}
 		}
+		
+		/**
+		 * Moves the given card to this player's discard file
+		 * @param	card	the card to be discarded
+		 * @return			Whether the card was sucessfully discarded
+		 */
+		public function discard(card:Card):Boolean {
+			
+		}
 	}
 }
