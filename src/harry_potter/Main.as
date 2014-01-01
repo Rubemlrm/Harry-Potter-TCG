@@ -79,7 +79,7 @@ package harry_potter
 			
 			//tooltip
 			Global.tooltip = new ToolTip();
-			var tfTitle:TextFormat = new TextFormat(null, 12, 0xFFFFFF, false, false, false);
+			var tfTitle:TextFormat = new TextFormat(null, 14, 0xFFFFFF, true, false, false);
 			var tfContent:TextFormat = new TextFormat(null, 10, 0xFFFFFF, false, false, false);
 			//Tooltip Settings
 			Global.tooltip.titleFormat = tfTitle;
@@ -87,7 +87,7 @@ package harry_potter
 			Global.tooltip.autoSize = true;
 			Global.tooltip.colors = [0x222222, 0x111111];
 			Global.tooltip.cornerRadius = 10;
-			Global.tooltip.bgAlpha = 0.8;
+			Global.tooltip.bgAlpha = 1;
 			
 			//Start at the main menu
 			mainMenu = new MainMenu();

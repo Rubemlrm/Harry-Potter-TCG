@@ -39,6 +39,7 @@ package harry_potter.game
 		private var gfxData:BitmapData; //Bitmap data reference for this card's graphic.
 		
 		public var cardName:String; //The title of the card
+		public var toolTipTitle:String; //The title of the card to be displayed in the tooltip
 		public var description:String; //Card description
 		public var type:String; //Card type (Creature, Lesson, Spell, etc.)
 		public var faceUp:Boolean; //Whether the card is face up or face down.
@@ -108,6 +109,7 @@ package harry_potter.game
 			switch(type) {
 				case "Lesson":
 					lesson_provides = new Array(cardName, 1); //cardName also corresponds to lessonType for lessons, every lesson only provides 1 (unless wand shop is played).
+					toolTipTitle = cardName;
 					break;
 				case "Creature":
 					lessons_required = new Array(LessonTypes.CARE_OF_MAGICAL_CREATURES, int(xmlData.numRequiredLessons));
@@ -118,8 +120,14 @@ package harry_potter.game
 					damagePerTurn = int(xmlData.damage);
 					health = int(xmlData.health);
 					damageWhenPlayed = int(xmlData.damageDealtWhenPlayed);
+					
+					toolTipTitle = cardName + "\nRequired Lessons: " + lessons_required[1];
 					break;
 			}
+			
+			/**TEMP**/
+			//Until all the card types have a defined tooltip title, we can just default to the cardName.
+			if (toolTipTitle == null) toolTipTitle = cardName;
 			
 			//Tooltips!
 			addEventListener(MouseEvent.MOUSE_OVER, showToolTip);
@@ -128,7 +136,7 @@ package harry_potter.game
 		
 		private function showToolTip(e:MouseEvent):void {
 			if(faceUp) {
-				Global.tooltip.show(this, cardName, description);
+				Global.tooltip.show(this, toolTipTitle, description);
 				if(this.hasEventListener(MouseEvent.CLICK)) {
 					this.filters = [new GlowFilter(0xffffff)];
 				}
