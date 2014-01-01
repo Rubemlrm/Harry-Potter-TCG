@@ -54,7 +54,7 @@ package harry_potter.game
 					deck_label.text = "Cards in Deck: " + value;
 					break;
 				case LABEL_CREATURES:
-					creatures_label.text = "Creature Damage: " + value;
+					creatures_label.text = "Damage: " + value;
 					break;
 				case LABEL_LESSONS:
 					lessons_label.text = "Lessons: " + value;

@@ -30,6 +30,11 @@ package harry_potter.game
 		private static const DISCARD_PILE_X:uint  = 90;
 		private static const DISCARD_PILE_Y:uint = 475 - Card.CARD_HEIGHT - 15;
 		
+		private static const CREATURES_X:uint = 494 + Card.CARD_HEIGHT * 0.5;
+		private static const CREATURES_Y:uint = 362 + Card.CARD_WIDTH * 0.5;
+		private static const CREATURES_X_SPACING:uint = 75;
+		private static const CREATURES_Y_SPACING:uint = 50;
+		
 		private var deck:Deck;
 		private var hand:Hand;
 		private var discardPile:DiscardPile;
@@ -44,8 +49,12 @@ package harry_potter.game
 		//Player variables
 		private var numLessons:int;
 		private var hasType:Array; //size 5 array stating which lessons we have in play.
+		private var damagePerTurn:int;
 		
 		private var starting_character:Card;
+		
+		/**TEMP**/ // ??
+		public var oppositePlayer:Player;
 		
 		public function Player(_deck:Deck) {
 			deck = _deck;
@@ -66,6 +75,8 @@ package harry_potter.game
 			numLessons = 0;
 			hasType = [0, 0, 0, 0, 0];
 			discardPile = new DiscardPile();
+			
+			damagePerTurn = 0;
 			
 			stats = new StatsPanel();
 			addChild(stats);
@@ -168,6 +179,35 @@ package harry_potter.game
 			adjustHandSpacing();
 		}
 		
+		public function takeDamage(amount:uint, animDelay:Number = 0):void {
+			if (amount == 0) return;
+			
+			var card:Card;
+			for (var i:int = 0; i < amount; i++) {
+				card = deck.getTopCard();
+				stats.update(StatsPanel.LABEL_DECK, deck.getNumCards());
+				
+				if (deck.getNumCards() == 0 || card == null) {
+					//lose!
+					Global.console.print("Deck is out of cards!");
+					removeChild(deck);
+					return;
+				}
+				
+				/***Animation***/
+				//The card begins at the deck x and y values
+				card.x = DECK_X + Card.CARD_WIDTH * 0.5;
+				card.y = DECK_Y + Card.CARD_HEIGHT * 0.5;
+				
+				addChild(card);
+				card.alpha = 0;
+				
+				discard(card, animDelay + i * 0.3);
+				
+				card.flip();
+			}
+		}
+		
 		public function playCard(e:MouseEvent):void {
 			var thisCard:Card = Card(e.target); //grab a reference to the clicked card.
 			
@@ -219,20 +259,42 @@ package harry_potter.game
 			} else if (numCOMCLessons < 1 || numCOMCLessons < card.lessonsToDiscardWhenPlayed) {
 				new MessageWindow(this, "Can't play that card!", "You need more Care of Magical Creatures lessons in play \nto play this card!");
 				return false;
+			} else if (creatures.getNumCards() >= 12) {
+				new MessageWindow(this, "Can't play that card!", "You don't have enough room on the board to play another creature!");
+				return false;
 			}
+			
+			card.removeEventListener(MouseEvent.CLICK, playCard);
 			
 			//remove lessons from play
 			discardLessons(LessonTypes.convertToID(LessonTypes.CARE_OF_MAGICAL_CREATURES), card.lessonsToDiscardWhenPlayed);
 			
+			//Place creature card on board
+			//rotate
+			card.rotate();
+			//tween to x y location
+			var targetX:int = CREATURES_X + CREATURES_X_SPACING * (creatures.getNumCards() % 4);
+			var targetY:int = CREATURES_Y;
 			
-			//play creature card
-				//rotate
-				//tween to x y location
-				//adjust damage per turn value
-				//remove from hand list
-				//add to creatures list
+			if (creatures.getNumCards() >= 8) {
+				targetY += CREATURES_Y_SPACING*2;
+			}
+			else if (creatures.getNumCards() >= 4) {
+				targetY += CREATURES_Y_SPACING;
+			}
 			
-			Global.console.print("Played Creature!");
+			Tweener.addTween(card, { x: targetX, y: targetY, time: 1, transition: "easeOutQuad" } );
+			//adjust damage per turn value
+			damagePerTurn += card.damagePerTurn;
+			stats.update(StatsPanel.LABEL_CREATURES, damagePerTurn);
+			//Add to appropriate data structure
+			hand.remove(card);
+			adjustHandSpacing();
+			
+			creatures.add(card);
+			
+			//TODO - DamageWhenPlayed Effect needs to be implemented!
+			oppositePlayer.takeDamage(card.damageWhenPlayed, card.lessonsToDiscardWhenPlayed*0.2);
 			return true;
 		}
 		
@@ -248,7 +310,9 @@ package harry_potter.game
 			for (var i:int = 0; i < lessons.getNumCards(); i++) {
 				if (LessonTypes.convertToID(lessons.cardAt(i).lesson_provides[0]) == type) {
 					//Add to discard list
-					discard(lessons.cardAt(i), 0.2 + discarded*0.2);
+					discard(lessons.cardAt(i), discarded * 0.2);
+					//rotate, since the lessons will be horizontal on the board
+					lessons.cardAt(i).rotate(null, discarded*0.2);
 					//Remove from lessons list
 					lessons.remove(lessons.cardAt(i));
 					//update player variables
@@ -264,28 +328,27 @@ package harry_potter.game
 				}
 			}
 			
-			rearrangeLessons();
+			rearrangeLessons(discarded*0.2);
 		}
 		
 		/**
-		 * Moves the given card to this player's discard file
+		 * Moves the given card to this player's discard file *DOES NOT ROTATE*
 		 * @param	card	the card to be discarded
 		 * @return			Whether the card was sucessfully discarded
 		 */
-		public function discard(card:Card, animDelay:Number = 0):void {
+		private function discard(card:Card, animDelay:Number = 0):void {
 			discardPile.add(card);
 			//tween to location
 			var targetX:int = DISCARD_PILE_X - discardPile.getNumCards() / 10;
 			var targetY:int = DISCARD_PILE_Y - discardPile.getNumCards() / 10;
 			
-			Tweener.addTween(card, { x: targetX, y: targetY, time: 1, delay: animDelay, transition: "easeOutQuad" } );
-			card.rotate(null, animDelay);
+			Tweener.addTween(card, { x: targetX, y: targetY, alpha: 1, time: 0.5, delay: animDelay, transition: "easeOutQuad" } );
 			//switch index to top so that it displays on top of the discard pile
 			setChildIndex(card, numChildren - 1);
 		}
 		
 		
-		public function rearrangeLessons():void {
+		public function rearrangeLessons(animDelay:Number = 0):void {
 			lessons.sort();
 			
 			var targetX:int;
@@ -302,7 +365,7 @@ package harry_potter.game
 				
 				//Only tween if the positions differ from the calculated ones.
 				if (thisCard.x != targetX || thisCard.y != targetY) {
-					Tweener.addTween(thisCard, { x: targetX, y:targetY, transition:"easeOutQuad", time: 0.7 } );
+					Tweener.addTween(thisCard, { x: targetX, y:targetY, transition:"easeOutQuad", time: 0.7, delay: animDelay } );
 				}
 			}
 		}
