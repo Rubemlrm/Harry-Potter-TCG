@@ -12,8 +12,9 @@ package harry_potter.game
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import harry_potter.assets.Global;
-	
+	import flash.filters.GlowFilter;
 	import fano.utils.ToolTip;
+	import harry_potter.utils.LessonTypes;
 	
 	
 	/**
@@ -38,6 +39,7 @@ package harry_potter.game
 		private var gfxData:BitmapData; //Bitmap data reference for this card's graphic.
 		
 		public var cardName:String; //The title of the card
+		public var toolTipTitle:String; //The title of the card to be displayed in the tooltip
 		public var description:String; //Card description
 		public var type:String; //Card type (Creature, Lesson, Spell, etc.)
 		public var faceUp:Boolean; //Whether the card is face up or face down.
@@ -46,6 +48,15 @@ package harry_potter.game
 		
 		/*TYPE-SPECIFIC VARIABLES*/
 		public var lesson_provides:Array; // [<LESSON_TYPE>, <LESSON_AMOUNT>] i.e. [LessonTypes.CHARMS, 1] for a charms lesson.
+		public var lessons_required:Array; // [<LESSON_TYPE>, <LESSON_AMOUNT>] i.e. [LessonTypes.CHARMS, 5], depicting the type of 
+										   // lesson required for this card and the amount of total lessons needed to play the card.
+		
+		//For creatures
+		public var damagePerTurn:int;
+		public var health:int;
+		public var damageWhenPlayed:int;
+		public var lessonsToDiscardWhenPlayed:int;
+		
 		
 		
 		/**
@@ -98,8 +109,25 @@ package harry_potter.game
 			switch(type) {
 				case "Lesson":
 					lesson_provides = new Array(cardName, 1); //cardName also corresponds to lessonType for lessons, every lesson only provides 1 (unless wand shop is played).
+					toolTipTitle = cardName;
+					break;
+				case "Creature":
+					lessons_required = new Array(LessonTypes.CARE_OF_MAGICAL_CREATURES, int(xmlData.numRequiredLessons));
 					
+					if (xmlData.lessonsToDiscardWhenPlayed.length() != 0) lessonsToDiscardWhenPlayed = int(xmlData.lessonsToDiscardWhenPlayed);
+					else lessonsToDiscardWhenPlayed = 0;
+					
+					damagePerTurn = int(xmlData.damage);
+					health = int(xmlData.health);
+					damageWhenPlayed = int(xmlData.damageDealtWhenPlayed);
+					
+					toolTipTitle = cardName + "\nRequired Lessons: " + lessons_required[1];
+					break;
 			}
+			
+			/**TEMP**/
+			//Until all the card types have a defined tooltip title, we can just default to the cardName.
+			if (toolTipTitle == null) toolTipTitle = cardName;
 			
 			//Tooltips!
 			addEventListener(MouseEvent.MOUSE_OVER, showToolTip);
@@ -108,11 +136,15 @@ package harry_potter.game
 		
 		private function showToolTip(e:MouseEvent):void {
 			if(faceUp) {
-				Global.tooltip.show(this, cardName, description);
+				Global.tooltip.show(this, toolTipTitle, description);
+				if(this.hasEventListener(MouseEvent.CLICK)) {
+					this.filters = [new GlowFilter(0xffffff)];
+				}
 			}
 		}
 		private function hideToolTip(e:MouseEvent):void {
 			Global.tooltip.hide();
+			this.filters = [];
 		}
 		/**
 		 * Switches the bitmapdata of the card face with the bitmapdata of the card back.
@@ -141,12 +173,12 @@ package harry_potter.game
 		 * Rotates the card from the horizontal position to the vertical position.
 		 * @param	e MouseEvent object for testing purposes, can be removed later
 		 */
-		public function rotate(e:MouseEvent = null):void {
+		public function rotate(e:MouseEvent = null, animDelay:Number = 0):void {
 			var targetRotation:int;
 			
 			(horizontal) ? targetRotation = 0 : targetRotation = 90;
 			
-			Tweener.addTween(this, { rotation: targetRotation, time: 0.2 } );
+			Tweener.addTween(this, { rotation: targetRotation, time: 0.2, delay: animDelay } );
 			horizontal = !horizontal;
 		}
 	}

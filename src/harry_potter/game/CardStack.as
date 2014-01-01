@@ -105,5 +105,13 @@ package harry_potter.game
 				}
 			}
 		}
+		
+		public function hasCard(_card:Card):Boolean {
+			for (var i:int = 0; i < numCards - 1; i++) {
+				if (cards[i].cardName == _card.cardName) return true;
+			}
+			
+			return false;
+		}
 	}
 }

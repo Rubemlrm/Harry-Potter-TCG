@@ -124,9 +124,12 @@
 		<tag>Lesson</tag>
 	</Card>
 	
+	<!-- **************************************** -->
+	<!-- ***************CREATURES**************** -->
+	<!-- **************************************** -->
 	<Card title = "Gryffindor Lion">
 		<type>Creature</type>
-		<description>Required Lessons: 6&#10;Damage: 3&#10;Heath: 3</description>
+		<description>Damage: 3&#10;Heath: 3</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>6</numRequiredLessons>
 		<damageDealtWhenPlayed>0</damageDealtWhenPlayed>
@@ -143,7 +146,7 @@
 	
 	<Card title = "Hufflepuff Badger">
 		<type>Creature</type>
-		<description>Required Lessons: 2&#10;Damage: 1&#10;Heath: 3</description>
+		<description>Damage: 1&#10;Heath: 3</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>2</numRequiredLessons>
 		<damageDealtWhenPlayed>0</damageDealtWhenPlayed>
@@ -160,7 +163,7 @@
 	
 	<Card title = "Ravenclaw Eagle">
 		<type>Creature</type>
-		<description>Required Lessons: 4&#10;Damage: 2&#10;Heath: 2</description>
+		<description>Damage: 2&#10;Heath: 2</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>4</numRequiredLessons>
 		<damageDealtWhenPlayed>0</damageDealtWhenPlayed>
@@ -177,7 +180,7 @@
 	
 	<Card title = "Slytherin Serpent">
 		<type>Creature</type>
-		<description>Required Lessons: 5&#10;Damage: 3&#10;Heath: 1</description>
+		<description>Damage: 3&#10;Heath: 1</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>5</numRequiredLessons>
 		<damageDealtWhenPlayed>0</damageDealtWhenPlayed>
@@ -194,7 +197,7 @@
 	
 	<Card title = "Baby Dragon">
 		<type>Creature</type>
-		<description>Required Lessons: 3&#10;To play this card, discard 1 of your Care of Magical Creatures lessons from play.&#10;Damage: 3&#10;Heath: 5</description>
+		<description>To play this card, discard 1 of your Care of Magical Creatures lessons from play.&#10;Damage: 3&#10;Heath: 5</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>3</numRequiredLessons>
 		<damageDealtWhenPlayed>0</damageDealtWhenPlayed>
@@ -212,7 +215,7 @@
 	
 	<Card title = "Welsh Green Dragon">
 		<type>Creature</type>
-		<description>Required Lessons: 7&#10;To play this card, discard 2 of your Care of Magical Creatures lessons from play. &#10;When you play this card, do 6 damage to your opponent&#10;Damage: 6&#10;Heath: 4</description>
+		<description>To play this card, discard 2 of your Care of Magical Creatures lessons from play. &#10;When you play this card, do 6 damage to your opponent&#10;Damage: 6&#10;Heath: 4</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>7</numRequiredLessons>
 		<damageDealtWhenPlayed>6</damageDealtWhenPlayed>
@@ -230,7 +233,7 @@
 	
 	<Card title = "Hebridean Black Dragon">
 		<type>Creature</type>
-		<description>Required Lessons: 8&#10;To play this card, discard 1 of your Care of Magical Creatures lessons from play.&#10;Damage: 7&#10;Heath: 5</description>
+		<description>To play this card, discard 1 of your Care of Magical Creatures lessons from play.&#10;Damage: 7&#10;Heath: 5</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>8</numRequiredLessons>
 		<damageDealtWhenPlayed>0</damageDealtWhenPlayed>
@@ -248,7 +251,7 @@
 	
 	<Card title = "Fluffy">
 		<type>Creature</type>
-		<description>Required Lessons: 10&#10;To play this card, discard 2 of your Care of Magical Creatures lessons from play.&#10;Damage: 12&#10;Heath: 21</description>
+		<description>To play this card, discard 2 of your Care of Magical Creatures lessons from play.&#10;Damage: 12&#10;Heath: 21</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>10</numRequiredLessons>
 		<damageDealtWhenPlayed>0</damageDealtWhenPlayed>
@@ -270,7 +273,7 @@
 	-->
 	<Card title = "Hedwig">
 		<type>Creature</type>
-		<description>Required Lessons: 6&#10;When you play this card, you may put a non-Healing card from your discard pile into your hand.&#10;Damage: 1&#10;Heath: 2</description>
+		<description>When you play this card, you may put a non-Healing card from your discard pile into your hand.&#10;Damage: 1&#10;Heath: 2</description>
 		<requiredLessonType>Care of Magical Creatures</requiredLessonType>
 		<numRequiredLessons>6</numRequiredLessons>
 		<damageDealtWhenPlayed>0</damageDealtWhenPlayed>
@@ -286,11 +289,13 @@
 		<maxAllowedInDeck>1</maxAllowedInDeck>
 	</Card>
 	
-	<!-- CHARMS -->
+	<!-- **************************************** -->
+	<!-- ***************CHARMS******************* -->
+	<!-- **************************************** -->
 	
 	<Card title = "Accio">
 		<type>Spell</type>
-		<description>Required Lessons: 2&#10;Put up to 2 Lesson cards from your discard pile into your hand.</description>
+		<description>Put up to 2 Lesson cards from your discard pile into your hand.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>2</numRequiredLessons>
 		
@@ -304,7 +309,7 @@
 	
 	<Card title = "Wingardium Leviosa">
 		<type>Spell</type>
-		<description>Required Lessons: 1&#10;During your opponent's next turn, prevent all damage done to you by your opponent's Creatures.</description>
+		<description>During your opponent's next turn, prevent all damage done to you by your opponent's Creatures.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>1</numRequiredLessons>
 		
@@ -318,7 +323,7 @@
 	
 	<Card title = "Wand Shop">
 		<type>Location</type>
-		<description>Required Lessons: 4&#10;All Charms Lessons (yours and your opponent's) provide 2 instead of 1.</description>
+		<description>All Charms Lessons (yours and your opponent's) provide 2 instead of 1.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>4</numRequiredLessons>
 		
@@ -332,7 +337,7 @@
 	
 	<Card title = "Verdillious">
 		<type>Spell</type>
-		<description>Required Lessons: 9&#10;Do 5 damage to your opponent or to a Creature of your choice.</description>
+		<description>Do 5 damage to your opponent or to a Creature of your choice.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>9</numRequiredLessons>
 		
@@ -346,7 +351,7 @@
 	
 	<Card title = "Freezing Charm">
 		<type>Spell</type>
-		<description>Required Lessons: 7&#10;Do 4 damage to your opponent or to a Creature of your choice.</description>
+		<description>Do 4 damage to your opponent or to a Creature of your choice.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>7</numRequiredLessons>
 		
@@ -360,7 +365,7 @@
 	
 	<Card title = "Hover Charm">
 		<type>Spell</type>
-		<description>Required Lessons: 4&#10;Choose 1 of your opponent's cards in play and return it to his or her hand.</description>
+		<description>Choose 1 of your opponent's cards in play and return it to his or her hand.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>4</numRequiredLessons>
 		
@@ -374,7 +379,7 @@
 	
 	<Card title = "Reparo">
 		<type>Spell</type>
-		<description>Required Lessons: 7&#10;Put a non-Healing card from your discard pile into your hand.</description>
+		<description>Put a non-Healing card from your discard pile into your hand.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>7</numRequiredLessons>
 		
@@ -388,7 +393,7 @@
 	
 	<Card title = "Backfire!">
 		<type>Spell</type>
-		<description>Required Lessons: 6&#10;Do 5 damage to your opponent.</description>
+		<description>Do 5 damage to your opponent.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>6</numRequiredLessons>
 		
@@ -402,7 +407,7 @@
 	
 	<Card title = "Obliviate">
 		<type>Spell</type>
-		<description>Required Lessons: 12&#10;Your opponent discards his or her hand.</description>
+		<description>Your opponent discards his or her hand.</description>
 		<requiredLessonType>Charms</requiredLessonType>
 		<numRequiredLessons>12</numRequiredLessons>
 		
@@ -414,11 +419,13 @@
 		<maxAllowedInDeck>1</maxAllowedInDeck>
 	</Card>
 	
-	<!-- TRANSFIGURATION -->
+	<!-- **************************************** -->
+	<!-- ************TRANSFIGURATION************* -->
+	<!-- **************************************** -->
 	
 	<Card title = "Homework">
 		<type>Spell</type>
-		<description>Required Lessons: 2&#10;Put up to 2 lesson cards from your hand into play.</description>
+		<description>Put up to 2 lesson cards from your hand into play.</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>2</numRequiredLessons>
 		
@@ -432,7 +439,7 @@
 	
 	<Card title = "Transfiguration Exam">
 		<type>Spell</type>
-		<description>Required Lessons: 10&#10;Discard all creatures from play (even your own).</description>
+		<description>Discard all creatures from play (even your own).</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>10</numRequiredLessons>
 		
@@ -446,7 +453,7 @@
 	
 	<Card title = "Aparecium">
 		<type>Spell</type>
-		<description>Required Lessons: 5&#10;Show your hand to your opponent. Put all lesson cards there into play.</description>
+		<description>Show your hand to your opponent. Put all lesson cards there into play.</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>5</numRequiredLessons>
 		
@@ -460,7 +467,7 @@
 	
 	<Card title = "Beetle Buttons">
 		<type>Spell</type>
-		<description>Required Lessons: 6&#10;Choose one of your opponent's creatures in play and discard it.</description>
+		<description>Choose one of your opponent's creatures in play and discard it.</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>6</numRequiredLessons>
 		
@@ -474,7 +481,7 @@
 	
 	<Card title = "Dobby's Disappearance">
 		<type>Spell</type>
-		<description>Required Lessons: 4&#10;Choose one of your opponent's cards in play and return it to his or her hand. You get one more Action this turn.</description>
+		<description>Choose one of your opponent's cards in play and return it to his or her hand. You get one more Action this turn.</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>4</numRequiredLessons>
 		
@@ -488,7 +495,7 @@
 	
 	<Card title = "Invisible Ink">
 		<type>Spell</type>
-		<description>Required Lessons: 8&#10;Choose up to 2 lessons in play and discard them.</description>
+		<description>Choose up to 2 lessons in play and discard them.</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>8</numRequiredLessons>
 		
@@ -502,7 +509,7 @@
 	
 	<Card title = "Diffindo">
 		<type>Spell</type>
-		<description>Required Lessons: 6&#10;Choose one of your opponent's cards in play and discard it.</description>
+		<description>Choose one of your opponent's cards in play and discard it.</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>6</numRequiredLessons>
 		
@@ -516,7 +523,7 @@
 	
 	<Card title = "Mice to Snuffboxes">
 		<type>Spell</type>
-		<description>Required Lessons: 5&#10;Choose up to 2 creatures in play and return them to their owner's hands.</description>
+		<description>Choose up to 2 creatures in play and return them to their owner's hands.</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>5</numRequiredLessons>
 		
@@ -530,7 +537,7 @@
 	
 	<Card title = "Counter Curse">
 		<type>Spell</type>
-		<description>Required Lessons: 5&#10;Choose 1 of your opponent's creatures in play and put it on the bottom of his or her deck.</description>
+		<description>Choose 1 of your opponent's creatures in play and put it on the bottom of his or her deck.</description>
 		<requiredLessonType>Transfigurations</requiredLessonType>
 		<numRequiredLessons>5</numRequiredLessons>
 		
@@ -542,11 +549,13 @@
 		<maxAllowedInDeck>3</maxAllowedInDeck>
 	</Card>
 	
-	<!-- POTIONS -->
+	<!-- **************************************** -->
+	<!-- ***************POTIONS****************** -->
+	<!-- **************************************** -->
 	
 	<Card title = "Potions Homework">
 		<type>Spell</type>
-		<description>Required Lessons: 3&#10;Your opponent takes damage until he or she discards a Lesson card from his or her deck.</description>
+		<description>Your opponent takes damage until he or she discards a Lesson card from his or her deck.</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>3</numRequiredLessons>
 		
@@ -560,7 +569,7 @@
 	
 	<Card title = "Potions Project">
 		<type>Spell</type>
-		<description>Required Lessons: 5&#10;Your opponent takes damage until he or she discards a total of 2 Lesson cards from his or her deck.</description>
+		<description>Your opponent takes damage until he or she discards a total of 2 Lesson cards from his or her deck.</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>5</numRequiredLessons>
 		
@@ -574,7 +583,7 @@
 	
 	<Card title = "Potions Test">
 		<type>Spell</type>
-		<description>Required Lessons: 12&#10;Your opponent takes damage until he or she discards a total of 3 Lesson cards from his or her deck.</description>
+		<description>Your opponent takes damage until he or she discards a total of 3 Lesson cards from his or her deck.</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>12</numRequiredLessons>
 		
@@ -588,7 +597,7 @@
 	
 	<Card title = "Hospital Dormitory">
 		<type>Location</type>
-		<description>Required Lessons: 7&#10;Each turn, each player may prevent up to 4 damage done to him or her (the damage may be prevented from one or more cards).</description>
+		<description>Each turn, each player may prevent up to 4 damage done to him or her (the damage may be prevented from one or more cards).</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>7</numRequiredLessons>
 		
@@ -602,7 +611,7 @@
 	
 	<Card title = "Draught of Living Death">
 		<type>Spell</type>
-		<description>Required Lessons: 8&#10;To play this card, discard 2 of your Potions Lessons from play. &#10;Do 12 damage to your opponent or to a Creature of your choice.</description>
+		<description>To play this card, discard 2 of your Potions Lessons from play. &#10;Do 12 damage to your opponent or to a Creature of your choice.</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>8</numRequiredLessons>
 		
@@ -616,7 +625,7 @@
 	
 	<Card title = "Malevolent Mixture">
 		<type>Spell</type>
-		<description>Required Lessons: 5&#10;To play this card, discard 2 of your Potions Lessons from play. &#10;Do 10 damage to your opponent or to a Creature of your choice.</description>
+		<description>To play this card, discard 2 of your Potions Lessons from play. &#10;Do 10 damage to your opponent or to a Creature of your choice.</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>5</numRequiredLessons>
 		
@@ -630,7 +639,7 @@
 	
 	<Card title = "Star Glass Salve">
 		<type>Spell</type>
-		<description>Required Lessons: 8&#10;To play this card, discard 1 of your Potions Lessons from play. &#10;Shuffle up to 12 non-Healing cards from your discard pile into your deck.</description>
+		<description>To play this card, discard 1 of your Potions Lessons from play. &#10;Shuffle up to 12 non-Healing cards from your discard pile into your deck.</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>8</numRequiredLessons>
 		
@@ -644,7 +653,7 @@
 	
 	<Card title = "Bruisewort Balm">
 		<type>Spell</type>
-		<description>Required Lessons: 3&#10;Shuffle up to 5 non-Healing cards from your discard pile into your deck.</description>
+		<description>Shuffle up to 5 non-Healing cards from your discard pile into your deck.</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>3</numRequiredLessons>
 		
@@ -658,7 +667,7 @@
 	
 	<Card title = "Butterfly Weed Balm">
 		<type>Spell</type>
-		<description>Required Lessons: 5&#10;To play this card, discard 1 of your Potions Lessons from play. &#10;Shuffle up to 9 non-Healing cards from your discard pile into your deck.</description>
+		<description>To play this card, discard 1 of your Potions Lessons from play. &#10;Shuffle up to 9 non-Healing cards from your discard pile into your deck.</description>
 		<requiredLessonType>Potions</requiredLessonType>
 		<numRequiredLessons>5</numRequiredLessons>
 		
@@ -670,11 +679,13 @@
 		<maxAllowedInDeck>2</maxAllowedInDeck>
 	</Card>
 	
-	<!-- QUIDDITCH -->
+	<!-- **************************************** -->
+	<!-- ***************QUIDDITCH**************** -->
+	<!-- **************************************** -->
 	
 	<Card title = "Loop-the-Loops">
 		<type>Spell</type>
-		<description>Required Lessons: 8&#10;Do 4 damage to your opponent. Then draw 4 cards.</description>
+		<description>Do 4 damage to your opponent. Then draw 4 cards.</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>8</numRequiredLessons>
 		
@@ -688,7 +699,7 @@
 	
 	<Card title = "Quidditch Pitch">
 		<type>Location</type>
-		<description>Required Lessons: 2&#10;Spell cards that need Quidditch Power (yours and your opponent's) need 2 less Power to play (you still need at least 1 Power that matches).</description>
+		<description>Spell cards that need Quidditch Power (yours and your opponent's) need 2 less Power to play (you still need at least 1 Power that matches).</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>2</numRequiredLessons>
 		
@@ -702,7 +713,7 @@
 	
 	<Card title = "Bludger Bop">
 		<type>Spell</type>
-		<description>Required Lessons: 6&#10;Your opponent chooses 1 of his or her cards in play and discards it. Then, if he or she has any cards in his or her hand, he or she chooses 1 of them and discards it.</description>
+		<description>Your opponent chooses 1 of his or her cards in play and discards it. Then, if he or she has any cards in his or her hand, he or she chooses 1 of them and discards it.</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>6</numRequiredLessons>
 		
@@ -716,7 +727,7 @@
 	
 	<Card title = "Roque Bludger">
 		<type>Item</type>
-		<description>Required Lessons: 8&#10;Before each of your turns, your opponent takes 3 damage.</description>
+		<description>Before each of your turns, your opponent takes 3 damage.</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>8</numRequiredLessons>
 		
@@ -730,7 +741,7 @@
 	
 	<Card title = "Sloth Grip">
 		<type>Spell</type>
-		<description>Required Lessons: 5&#10;During your opponent's next turn, you may prevent all but the first 3 damage done to you.</description>
+		<description>During your opponent's next turn, you may prevent all but the first 3 damage done to you.</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>5</numRequiredLessons>
 		
@@ -744,7 +755,7 @@
 	
 	<Card title = "Catch The Snitch">
 		<type>Spell</type>
-		<description>Required Lessons: 7&#10;You win the current Match (you get the prize).</description>
+		<description>You win the current Match (you get the prize).</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>7</numRequiredLessons>
 		
@@ -758,7 +769,7 @@
 	
 	<Card title = "Defence!">
 		<type>Spell</type>
-		<description>Required Lessons: 10&#10;During your opponent's next turn, prevent all damage done to you.</description>
+		<description>During your opponent's next turn, prevent all damage done to you.</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>10</numRequiredLessons>
 		
@@ -772,7 +783,7 @@
 	
 	<Card title = "Griffindor Match">
 		<type>Match</type>
-		<description>Required Lessons: 1&#10;To Win: Do 12 damage to your opponent while this card is in play.&#10;Prize: The winner gets 2 more Actions during his or her next turn.</description>
+		<description>To Win: Do 12 damage to your opponent while this card is in play.&#10;Prize: The winner gets 2 more Actions during his or her next turn.</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>1</numRequiredLessons>
 		
@@ -786,7 +797,7 @@
 	
 	<Card title = "Slytherin Match">
 		<type>Match</type>
-		<description>Required Lessons: 1&#10;To Win: Do 15 damage to your opponent while this card is in play.&#10;Prize: The winner may shuffle up to 15 non-Healing cards from his or her discard pile into his or her deck.</description>
+		<description>To Win: Do 15 damage to your opponent while this card is in play.&#10;Prize: The winner may shuffle up to 15 non-Healing cards from his or her discard pile into his or her deck.</description>
 		<requiredLessonType>Quidditch</requiredLessonType>
 		<numRequiredLessons>1</numRequiredLessons>
 		

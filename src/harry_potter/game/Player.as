@@ -7,10 +7,8 @@ package harry_potter.game
 	import harry_potter.utils.DeckGeneration;
 	import harry_potter.game.Card;
 	import caurina.transitions.Tweener;
-	
-	//Testing
+	import fano.utils.MessageWindow;
 	import fano.utils.DelayedFunctionCall;
-	
 	
 	public class Player extends Sprite {
 		//Positioning constants
@@ -29,9 +27,17 @@ package harry_potter.game
 		private static const LESSONS_Y_SPACING:uint = 12;
 		private static const LESSONS_X_SPACING:uint = 75;
 		
+		private static const DISCARD_PILE_X:uint  = 90;
+		private static const DISCARD_PILE_Y:uint = 475 - Card.CARD_HEIGHT - 15;
+		
+		private static const CREATURES_X:uint = 494 + Card.CARD_HEIGHT * 0.5;
+		private static const CREATURES_Y:uint = 362 + Card.CARD_WIDTH * 0.5;
+		private static const CREATURES_X_SPACING:uint = 75;
+		private static const CREATURES_Y_SPACING:uint = 50;
+		
 		private var deck:Deck;
 		private var hand:Hand;
-		private var discard:Discard;
+		private var discardPile:DiscardPile;
 		
 		private var stats:StatsPanel;
 		
@@ -43,8 +49,12 @@ package harry_potter.game
 		//Player variables
 		private var numLessons:int;
 		private var hasType:Array; //size 5 array stating which lessons we have in play.
+		private var damagePerTurn:int;
 		
 		private var starting_character:Card;
+		
+		/**TEMP**/ // ??
+		public var oppositePlayer:Player;
 		
 		public function Player(_deck:Deck) {
 			deck = _deck;
@@ -59,9 +69,14 @@ package harry_potter.game
 			//addChild(hand);
 			
 			lessons = new CardStack();
+			creatures = new CardStack();
+			items = new CardStack();
+			
 			numLessons = 0;
-			hasType = [false, false, false, false, false];
-			discard = new Discard();
+			hasType = [0, 0, 0, 0, 0];
+			discardPile = new DiscardPile();
+			
+			damagePerTurn = 0;
 			
 			stats = new StatsPanel();
 			addChild(stats);
@@ -102,14 +117,13 @@ package harry_potter.game
 			
 			
 			// Draw Hand
-			//TO DO - Add Tweening delay, again separate into separate function.
 			for (var i:int = 0; i < 7; i++) {
 				new DelayedFunctionCall(draw, i * 200 + 400);
 			}
 		}
 		
 		private function adjustHandSpacing():void {
-			//We create a shrink value depending on the number of cards in the hand.
+			//Create a shrink value depending on the number of cards in the hand.
 			var num:int = hand.getNumCards();
 			var shrinkValue:Number;
 			if (num < 11) {
@@ -130,13 +144,13 @@ package harry_potter.game
 			var targetX:int;
 			for (var i:int = 0; i < hand.getNumCards(); i++) {
 				targetX = HAND_X + i * ((Card.CARD_WIDTH + HAND_SPACING) * shrinkValue);
-				
+				//Tween it into place
 				Tweener.addTween(hand.cardAt(i), {x: targetX, y: HAND_Y, time:0.8, transition:"easeOutQuad"} );
 			}
 		}
 		
 		public function draw(e:MouseEvent = null):void {
-			//Animate here, low coupling ;)
+			//Animate here
 			var thisCard:Card = deck.getTopCard();
 			stats.update(StatsPanel.LABEL_DECK, deck.getNumCards());
 			
@@ -165,6 +179,35 @@ package harry_potter.game
 			adjustHandSpacing();
 		}
 		
+		public function takeDamage(amount:uint, animDelay:Number = 0):void {
+			if (amount == 0) return;
+			
+			var card:Card;
+			for (var i:int = 0; i < amount; i++) {
+				card = deck.getTopCard();
+				stats.update(StatsPanel.LABEL_DECK, deck.getNumCards());
+				
+				if (deck.getNumCards() == 0 || card == null) {
+					//lose!
+					Global.console.print("Deck is out of cards!");
+					removeChild(deck);
+					return;
+				}
+				
+				/***Animation***/
+				//The card begins at the deck x and y values
+				card.x = DECK_X + Card.CARD_WIDTH * 0.5;
+				card.y = DECK_Y + Card.CARD_HEIGHT * 0.5;
+				
+				addChild(card);
+				card.alpha = 0;
+				
+				discard(card, animDelay + i * 0.3);
+				
+				card.flip();
+			}
+		}
+		
 		public function playCard(e:MouseEvent):void {
 			var thisCard:Card = Card(e.target); //grab a reference to the clicked card.
 			
@@ -174,6 +217,8 @@ package harry_potter.game
 				case "Lesson":
 					playLesson(thisCard);
 					break;
+				case "Creature":
+					playCreature(thisCard);
 			}
 		}
 		
@@ -199,25 +244,111 @@ package harry_potter.game
 			
 			//finally, add it to the proper stack
 			lessons.add(card);
-			checkLessonTypes();
+			//checkLessonTypes();
+			hasType[LessonTypes.convertToID(card.cardName)]++;
 			stats.update(StatsPanel.LABEL_LESSONS, numLessons, hasType);
 			rearrangeLessons();
 		}
 		
-		/**
-		 * Checks the players lessons in play to set the hasType array to the proper values.
-		 */
-		private function checkLessonTypes():void {
-			//reset the array
-			hasType = [false, false, false, false, false];
-			
-			//set all found values to true.
-			for (var i:uint = 0; i < lessons.getNumCards(); i++) {
-				hasType[LessonTypes.convertToID(lessons.cardAt(i).cardName)] = true;
+		public function playCreature(card:Card):Boolean {
+			//Must perform checks!
+			var numCOMCLessons:int = hasType[LessonTypes.convertToID(LessonTypes.CARE_OF_MAGICAL_CREATURES)];
+			if (numLessons < card.lessons_required[1]) {
+				new MessageWindow(this, "Can't play that card!", "You do not have enough lessons to play this card!");
+				return false;
+			} else if (numCOMCLessons < 1 || numCOMCLessons < card.lessonsToDiscardWhenPlayed) {
+				new MessageWindow(this, "Can't play that card!", "You need more Care of Magical Creatures lessons in play \nto play this card!");
+				return false;
+			} else if (creatures.getNumCards() >= 12) {
+				new MessageWindow(this, "Can't play that card!", "You don't have enough room on the board to play another creature!");
+				return false;
 			}
+			
+			card.removeEventListener(MouseEvent.CLICK, playCard);
+			
+			//remove lessons from play
+			discardLessons(LessonTypes.convertToID(LessonTypes.CARE_OF_MAGICAL_CREATURES), card.lessonsToDiscardWhenPlayed);
+			
+			//Place creature card on board
+			//rotate
+			card.rotate();
+			//tween to x y location
+			var targetX:int = CREATURES_X + CREATURES_X_SPACING * (creatures.getNumCards() % 4);
+			var targetY:int = CREATURES_Y;
+			
+			if (creatures.getNumCards() >= 8) {
+				targetY += CREATURES_Y_SPACING*2;
+			}
+			else if (creatures.getNumCards() >= 4) {
+				targetY += CREATURES_Y_SPACING;
+			}
+			
+			Tweener.addTween(card, { x: targetX, y: targetY, time: 1, transition: "easeOutQuad" } );
+			//adjust damage per turn value
+			damagePerTurn += card.damagePerTurn;
+			stats.update(StatsPanel.LABEL_CREATURES, damagePerTurn);
+			//Add to appropriate data structure
+			hand.remove(card);
+			adjustHandSpacing();
+			
+			creatures.add(card);
+			
+			//TODO - DamageWhenPlayed Effect needs to be implemented!
+			oppositePlayer.takeDamage(card.damageWhenPlayed, card.lessonsToDiscardWhenPlayed*0.2);
+			return true;
 		}
 		
-		public function rearrangeLessons():void {
+		/**
+		 * Discards the given amount of lessons of the given type **ASSUMES THERE ARE ENOUGH LESSONS TO DISCARD**
+		 * @param	type		Must be a LessonTypes constant
+		 * @param	amount		Number of lessons to be discarded
+		 */
+		public function discardLessons(type:uint, amount:uint):void {
+			if (amount == 0) return;
+			
+			var discarded:uint = 0;
+			for (var i:int = 0; i < lessons.getNumCards(); i++) {
+				if (LessonTypes.convertToID(lessons.cardAt(i).lesson_provides[0]) == type) {
+					//Add to discard list
+					discard(lessons.cardAt(i), discarded * 0.2);
+					//rotate, since the lessons will be horizontal on the board
+					lessons.cardAt(i).rotate(null, discarded*0.2);
+					//Remove from lessons list
+					lessons.remove(lessons.cardAt(i));
+					//update player variables
+					hasType[type]--;
+					numLessons--;
+					//update stats panel
+					stats.update(StatsPanel.LABEL_LESSONS, numLessons, hasType);
+					
+					//break when we're done
+					if (++discarded == amount) {
+						break;
+					}
+				}
+			}
+			
+			rearrangeLessons(discarded*0.2);
+		}
+		
+		/**
+		 * Moves the given card to this player's discard file *DOES NOT ROTATE*
+		 * @param	card	the card to be discarded
+		 * @return			Whether the card was sucessfully discarded
+		 */
+		private function discard(card:Card, animDelay:Number = 0):void {
+			discardPile.add(card);
+			//tween to location
+			var targetX:int = DISCARD_PILE_X - discardPile.getNumCards() / 10;
+			var targetY:int = DISCARD_PILE_Y - discardPile.getNumCards() / 10;
+			
+			Tweener.addTween(card, { x: targetX, y: targetY, alpha: 1, time: 0.5, delay: animDelay, transition: "easeOutQuad" } );
+			//switch index to top so that it displays on top of the discard pile
+			setChildIndex(card, numChildren - 1);
+		}
+		
+		
+		public function rearrangeLessons(animDelay:Number = 0):void {
 			lessons.sort();
 			
 			var targetX:int;
@@ -234,7 +365,7 @@ package harry_potter.game
 				
 				//Only tween if the positions differ from the calculated ones.
 				if (thisCard.x != targetX || thisCard.y != targetY) {
-					Tweener.addTween(thisCard, { x: targetX, y:targetY, transition:"easeOutQuad", time: 0.7 } );
+					Tweener.addTween(thisCard, { x: targetX, y:targetY, transition:"easeOutQuad", time: 0.7, delay: animDelay } );
 				}
 			}
 		}

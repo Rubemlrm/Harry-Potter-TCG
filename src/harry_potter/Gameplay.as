@@ -24,12 +24,17 @@ package harry_potter
 			
 			player = new Player(_playerDeck);
 			addChild(player);
+			
 			var player2:Player = new Player(_opponentDeck);
 			//position the player 2 opposite of player 1
 			player2.x = 800;
 			player2.y = 600;
 			player2.rotation = 180;
-			addChild(player2);			
+			addChild(player2);
+			
+			
+			player.oppositePlayer = player2;
+			player2.oppositePlayer = player;
 			
 		}
 	}
