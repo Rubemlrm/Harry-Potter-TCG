@@ -13,7 +13,8 @@ Planned Features
 
 To-Do List
 ----------
-* Creature card positioning constants need to be defined.
-* Tweens for creature cards when they can be played.
-* Discard pile implementation.
+
 * Basic spell cards (damaging).
+* Spell cards requiring more input from the player (i.e. Diffindo).
+* Turns.
+* Basic A.I. logic tree.
