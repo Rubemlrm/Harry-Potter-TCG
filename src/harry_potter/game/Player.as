@@ -35,16 +35,17 @@ package harry_potter.game
 		private static const CREATURES_X_SPACING:uint = 75;
 		private static const CREATURES_Y_SPACING:uint = 50;
 		
-		private var deck:Deck;
-		private var hand:Hand;
-		private var discardPile:DiscardPile;
-		
 		private var stats:StatsPanel;
 		
 		//In play objects
 		private var lessons:CardStack;
-		private var creatures:CardStack; //for later
+		private var creatures:CardStack;
 		private var items:CardStack; //for later
+		
+		//Data structures
+		private var deck:Deck;
+		private var hand:Hand;
+		private var discardPile:DiscardPile;
 		
 		//Player variables
 		private var numLessons:int;
