@@ -23,15 +23,15 @@ package harry_potter.game
 		private static const STARTING_Y:uint = 518 + Card.CARD_HEIGHT * 0.5;
 		
 		private static const LESSONS_X:uint = 270 + Card.CARD_WIDTH * 0.5;
-		private static const LESSONS_Y:uint = 356 + Card.CARD_HEIGHT * 0.5;
+		private static const LESSONS_Y:uint = 353 + Card.CARD_HEIGHT * 0.5;
 		private static const LESSONS_Y_SPACING:uint = 12;
 		private static const LESSONS_X_SPACING:uint = 75;
 		
 		private static const DISCARD_PILE_X:uint  = 90;
 		private static const DISCARD_PILE_Y:uint = 475 - Card.CARD_HEIGHT - 15;
 		
-		private static const CREATURES_X:uint = 494 + Card.CARD_HEIGHT * 0.5;
-		private static const CREATURES_Y:uint = 362 + Card.CARD_WIDTH * 0.5;
+		private static const CREATURES_X:uint = 504 + Card.CARD_WIDTH * 0.5;
+		private static const CREATURES_Y:uint = 353 + Card.CARD_HEIGHT * 0.5;
 		private static const CREATURES_X_SPACING:uint = 75;
 		private static const CREATURES_Y_SPACING:uint = 50;
 		
@@ -63,10 +63,6 @@ package harry_potter.game
 		
 		private function init():void {
 			hand = new Hand();
-			//Not sure if we'll do any display stuff in the hand class
-			//hand.x = HAND_X;
-			//hand.y = HAND_Y;
-			//addChild(hand);
 			
 			lessons = new CardStack();
 			creatures = new CardStack();
@@ -102,7 +98,8 @@ package harry_potter.game
 				default:
 					throw new Error("Invalid type at deck.mainLesson!");
 			}
-			//TO DO - Add main character to displayList, probably separate into different function to clean up this code
+			
+			//Add main character to displayList, probably separate into different function to clean up this code
 			starting_character.x = STARTING_X;
 			starting_character.y = STARTING_Y;
 			starting_character.flip();
@@ -125,19 +122,23 @@ package harry_potter.game
 		private function adjustHandSpacing():void {
 			//Create a shrink value depending on the number of cards in the hand.
 			var num:int = hand.getNumCards();
-			var shrinkValue:Number;
-			if (num < 11) {
-				shrinkValue = 1;
-			} else if (num >= 11 && num < 15) {
-				shrinkValue = 0.7;
-			} else if (num >= 15 && num < 21) {
-				shrinkValue = 0.5;
-			} else if (num >= 21 && num < 33) {
-				shrinkValue = 0.3;
-			} else if (num >= 33 && num < 50) {
-				shrinkValue = 0.2;
-			} else {
+			var shrinkValue:Number = 1;
+			
+			//Adjust value based on number of cards in the hand
+			if (num >= 50) {
 				shrinkValue = 0.15;
+			}
+			else if (num >= 33) {
+				shrinkValue = 0.2;
+			}
+			else if (num >= 21) {
+				shrinkValue = 0.3;
+			}
+			else if (num >= 15) {
+				shrinkValue = 0.5;
+			}
+			else if (num >= 11) {
+				shrinkValue = 0.7;
 			}
 			
 			//Figure out the target X of the card based on the shrink value
@@ -145,10 +146,14 @@ package harry_potter.game
 			for (var i:int = 0; i < hand.getNumCards(); i++) {
 				targetX = HAND_X + i * ((Card.CARD_WIDTH + HAND_SPACING) * shrinkValue);
 				//Tween it into place
-				Tweener.addTween(hand.cardAt(i), {x: targetX, y: HAND_Y, time:0.8, transition:"easeOutQuad"} );
+				Tweener.addTween(hand.cardAt(i), { x: targetX, y: HAND_Y, time: 0.8, transition: "easeOutQuad" } );
+				
 			}
 		}
 		
+		/**
+		 * Draws a card from the player's deck and places it into his hand.
+		 */
 		public function draw(e:MouseEvent = null):void {
 			//Animate here
 			var thisCard:Card = deck.getTopCard();
@@ -179,6 +184,11 @@ package harry_potter.game
 			adjustHandSpacing();
 		}
 		
+		/**
+		 * Causes the player to take damage by discarding cards from the top of his deck.
+		 * @param	amount		The amount of damage to take.
+		 * @param	animDelay	How long to wait (in seconds) before playing the animation (default = 0).
+		 */
 		public function takeDamage(amount:uint, animDelay:Number = 0):void {
 			if (amount == 0) return;
 			
@@ -208,6 +218,9 @@ package harry_potter.game
 			}
 		}
 		
+		/**
+		 * Attemps to play the card clicked by the player.
+		 */
 		public function playCard(e:MouseEvent):void {
 			var thisCard:Card = Card(e.target); //grab a reference to the clicked card.
 			
@@ -222,7 +235,12 @@ package harry_potter.game
 			}
 		}
 		
-		public function playLesson(card:Card):void {
+		/**
+		 * Plays a lesson from the players hand.
+		 * @param	card	A reference to the card to be played.
+		 * @return			A boolean stating whether this card was played sucessfully.
+		 */
+		private function playLesson(card:Card):Boolean {
 			//no checks needed, playing a lesson is always valid.
 			hand.remove(card);
 			adjustHandSpacing();
@@ -244,22 +262,32 @@ package harry_potter.game
 			
 			//finally, add it to the proper stack
 			lessons.add(card);
-			//checkLessonTypes();
+			
 			hasType[LessonTypes.convertToID(card.cardName)]++;
 			stats.update(StatsPanel.LABEL_LESSONS, numLessons, hasType);
+			
 			rearrangeLessons();
+			
+			return true;
 		}
 		
-		public function playCreature(card:Card):Boolean {
+		/**
+		 * Plays a creature from the players hand.
+		 * @param	card	A reference to the card to be played.
+		 * @return			A boolean stating whether this card was played sucessfully.
+		 */
+		private function playCreature(card:Card):Boolean {
 			//Must perform checks!
 			var numCOMCLessons:int = hasType[LessonTypes.convertToID(LessonTypes.CARE_OF_MAGICAL_CREATURES)];
 			if (numLessons < card.lessons_required[1]) {
 				new MessageWindow(this, "Can't play that card!", "You do not have enough lessons to play this card!");
 				return false;
-			} else if (numCOMCLessons < 1 || numCOMCLessons < card.lessonsToDiscardWhenPlayed) {
+			} 
+			else if (numCOMCLessons < 1 || numCOMCLessons < card.lessonsToDiscardWhenPlayed) {
 				new MessageWindow(this, "Can't play that card!", "You need more Care of Magical Creatures lessons in play \nto play this card!");
 				return false;
-			} else if (creatures.getNumCards() >= 12) {
+			} 
+			else if (creatures.getNumCards() >= 12) {
 				new MessageWindow(this, "Can't play that card!", "You don't have enough room on the board to play another creature!");
 				return false;
 			}
@@ -270,14 +298,14 @@ package harry_potter.game
 			discardLessons(LessonTypes.convertToID(LessonTypes.CARE_OF_MAGICAL_CREATURES), card.lessonsToDiscardWhenPlayed);
 			
 			//Place creature card on board
-			//rotate
 			card.rotate();
+			
 			//tween to x y location
 			var targetX:int = CREATURES_X + CREATURES_X_SPACING * (creatures.getNumCards() % 4);
 			var targetY:int = CREATURES_Y;
 			
 			if (creatures.getNumCards() >= 8) {
-				targetY += CREATURES_Y_SPACING*2;
+				targetY += CREATURES_Y_SPACING * 2;
 			}
 			else if (creatures.getNumCards() >= 4) {
 				targetY += CREATURES_Y_SPACING;
@@ -293,7 +321,6 @@ package harry_potter.game
 			
 			creatures.add(card);
 			
-			//TODO - DamageWhenPlayed Effect needs to be implemented!
 			oppositePlayer.takeDamage(card.damageWhenPlayed, card.lessonsToDiscardWhenPlayed*0.2);
 			return true;
 		}
@@ -303,7 +330,7 @@ package harry_potter.game
 		 * @param	type		Must be a LessonTypes constant
 		 * @param	amount		Number of lessons to be discarded
 		 */
-		public function discardLessons(type:uint, amount:uint):void {
+		private function discardLessons(type:uint, amount:uint):void {
 			if (amount == 0) return;
 			
 			var discarded:uint = 0;
@@ -318,7 +345,6 @@ package harry_potter.game
 					//update player variables
 					hasType[type]--;
 					numLessons--;
-					//update stats panel
 					stats.update(StatsPanel.LABEL_LESSONS, numLessons, hasType);
 					
 					//break when we're done
@@ -328,13 +354,13 @@ package harry_potter.game
 				}
 			}
 			
-			rearrangeLessons(discarded*0.2);
+			rearrangeLessons(discarded * 0.2);
 		}
 		
 		/**
 		 * Moves the given card to this player's discard file *DOES NOT ROTATE*
-		 * @param	card	the card to be discarded
-		 * @return			Whether the card was sucessfully discarded
+		 * @param	card		the card to be discarded.
+		 * @param	animDelay	How long to wait (in seconds) before playing the animation (default = 0).
 		 */
 		private function discard(card:Card, animDelay:Number = 0):void {
 			discardPile.add(card);
@@ -347,8 +373,11 @@ package harry_potter.game
 			setChildIndex(card, numChildren - 1);
 		}
 		
-		
-		public function rearrangeLessons(animDelay:Number = 0):void {
+		/**
+		 * Rearranges the lessons to make them look neat on the board
+		 * @param	animDelay	How long to wait (in seconds) before playing the animation (default = 0).
+		 */
+		private function rearrangeLessons(animDelay:Number = 0):void {
 			lessons.sort();
 			
 			var targetX:int;
