@@ -71,6 +71,7 @@ package harry_potter.game
 			
 			numLessons = 0;
 			hasType = [0, 0, 0, 0, 0];
+			
 			discardPile = new DiscardPile();
 			
 			damagePerTurn = 0;
@@ -80,44 +81,11 @@ package harry_potter.game
 			
 			stats.update(StatsPanel.LABEL_DECK, deck.getNumCards());
 			
-			switch(deck._mainLesson) {
-				case LessonTypes.CARE_OF_MAGICAL_CREATURES:
-					starting_character = new Card(DeckGeneration.CHARACTER_CREATURES);
-					break;
-				case LessonTypes.CHARMS:
-					starting_character = new Card(DeckGeneration.CHARACTER_CHARMS);
-					break;
-				case LessonTypes.TRANSFIGURATION:
-					starting_character = new Card(DeckGeneration.CHARACTER_TRANSFIGURATIONS);
-					break;
-				case LessonTypes.POTIONS:
-					starting_character = new Card(DeckGeneration.CHARACTER_POTIONS);
-					break;
-				case LessonTypes.QUIDDITCH:
-					starting_character = new Card(DeckGeneration.CHARACTER_QUIDDITCH);
-					break;
-				default:
-					throw new Error("Invalid type at deck.mainLesson!");
-			}
+			initMainCharacter();
 			
-			//Add main character to displayList, probably separate into different function to clean up this code
-			starting_character.x = STARTING_X;
-			starting_character.y = STARTING_Y;
-			starting_character.flip();
-			starting_character.rotate();
-			addChild(starting_character);
+			initDeck();
 			
-			deck.shuffle();
-			deck.x = DECK_X;
-			deck.y = DECK_Y;
-			addChild(deck);
-			deck.addEventListener(MouseEvent.CLICK, draw);
-			
-			
-			// Draw Hand
-			for (var i:int = 0; i < 7; i++) {
-				new DelayedFunctionCall(draw, i * 200 + 400);
-			}
+			drawInitialHand();
 		}
 		
 		private function adjustHandSpacing():void {
@@ -397,6 +365,50 @@ package harry_potter.game
 				if (thisCard.x != targetX || thisCard.y != targetY) {
 					Tweener.addTween(thisCard, { x: targetX, y:targetY, transition:"easeOutQuad", time: 0.7, delay: animDelay } );
 				}
+			}
+		}
+		
+		private function initMainCharacter():void {
+			switch(deck._mainLesson) {
+				case LessonTypes.CARE_OF_MAGICAL_CREATURES:
+					starting_character = new Card(DeckGeneration.CHARACTER_CREATURES);
+					break;
+				case LessonTypes.CHARMS:
+					starting_character = new Card(DeckGeneration.CHARACTER_CHARMS);
+					break;
+				case LessonTypes.TRANSFIGURATION:
+					starting_character = new Card(DeckGeneration.CHARACTER_TRANSFIGURATIONS);
+					break;
+				case LessonTypes.POTIONS:
+					starting_character = new Card(DeckGeneration.CHARACTER_POTIONS);
+					break;
+				case LessonTypes.QUIDDITCH:
+					starting_character = new Card(DeckGeneration.CHARACTER_QUIDDITCH);
+					break;
+				default:
+					throw new Error("Invalid type at deck.mainLesson!");
+			}
+			
+			//Add main character to displayList
+			starting_character.x = STARTING_X;
+			starting_character.y = STARTING_Y;
+			starting_character.flip();
+			starting_character.rotate();
+			addChild(starting_character);
+		}
+		
+		private function initDeck():void {
+			deck.shuffle();
+			deck.x = DECK_X;
+			deck.y = DECK_Y;
+			addChild(deck);
+			deck.addEventListener(MouseEvent.CLICK, draw);
+		}
+		
+		private function drawInitialHand():void 
+		{
+			for (var i:int = 0; i < 7; i++) {
+				new DelayedFunctionCall(draw, i * 200 + 400);
 			}
 		}
 	}

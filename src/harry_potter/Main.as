@@ -48,22 +48,9 @@ package harry_potter
 			
 			Style.setStyle(Style.DARK); //Style for the bit101 components
 			
-			//Load the card library
-			var ba:ByteArray = (new Global.CardLibary()) as ByteArray;
-			var s:String = ba.readUTFBytes(ba.length);
-			Card.library = new XML(s);
-			Card.spriteSheet = new Global.CardsSpriteSheet();
-			
-			//Load the cardback
-			Card.cardBack = new BitmapData(48,67);
-			Card.cardBack.copyPixels(Card.spriteSheet.bitmapData, new Rectangle(0, 0, 48, 67), new Point(0, 0));
-			
-			//Load the sprites for the deck
-			Deck.spriteSheet = new Global.DeckSpriteSheet();
-			//And the menuCharDisplay
-			MenuCharacterDisplay.spriteSheet = new Global.StartingChars();
-			//And the lessonButtons
-			LessonButton.spriteSheet = new Global.LessonSelect();
+			//initialize the card library and sprites
+			loadCardLibrary();
+			loadSprites();
 			
 			//initialize the layer sprites
 			gameLayer = new Sprite();
@@ -73,26 +60,16 @@ package harry_potter
 			addChild(consoleLayer);
 			
 			//initialize the console
-			Global.console = new Console(this, 0, 0, 400);
-			consoleLayer.addChild(Global.console);
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, Global.console.toggle);
+			initConsole();
 			
 			//tooltip
-			Global.tooltip = new ToolTip();
-			var tfTitle:TextFormat = new TextFormat(null, 14, 0xFFFFFF, true, false, false);
-			var tfContent:TextFormat = new TextFormat(null, 10, 0xFFFFFF, false, false, false);
-			//Tooltip Settings
-			Global.tooltip.titleFormat = tfTitle;
-			Global.tooltip.contentFormat = tfContent;
-			Global.tooltip.autoSize = true;
-			Global.tooltip.colors = [0x222222, 0x111111];
-			Global.tooltip.cornerRadius = 10;
-			Global.tooltip.bgAlpha = 1;
+			initTooltips();
 			
 			//Start at the main menu
 			mainMenu = new MainMenu();
 			
 			gameLayer.addChild(mainMenu);
+			
 			mainMenu.addEventListener(StartGameEvent.START_GAME, startGame);
 		}
 		
@@ -116,6 +93,45 @@ package harry_potter
 			var appBackBitmapData:BitmapData = new BitmapData(width, height, false, color);
 			var appBackBitmap:Bitmap = new Bitmap(appBackBitmapData);
 			addChild(appBackBitmap);
+		}
+		
+		private function loadCardLibrary():void {
+			var ba:ByteArray = (new Global.CardLibary()) as ByteArray;
+			var s:String = ba.readUTFBytes(ba.length);
+			Card.library = new XML(s);
+			Card.spriteSheet = new Global.CardsSpriteSheet();
+		}
+		
+		private function initTooltips():void {
+			Global.tooltip = new ToolTip();
+			var tfTitle:TextFormat = new TextFormat(null, 14, 0xFFFFFF, true, false, false);
+			var tfContent:TextFormat = new TextFormat(null, 10, 0xFFFFFF, false, false, false);
+			//Tooltip Settings
+			Global.tooltip.titleFormat = tfTitle;
+			Global.tooltip.contentFormat = tfContent;
+			Global.tooltip.autoSize = true;
+			Global.tooltip.colors = [0x222222, 0x111111];
+			Global.tooltip.cornerRadius = 10;
+			Global.tooltip.bgAlpha = 1;
+		}
+		
+		private function initConsole():void {
+			Global.console = new Console(this, 0, 0, 400);
+			consoleLayer.addChild(Global.console);
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, Global.console.toggle);
+		}
+		
+		private function loadSprites():void {
+			//Load the cardback
+			Card.cardBack = new BitmapData(48,67);
+			Card.cardBack.copyPixels(Card.spriteSheet.bitmapData, new Rectangle(0, 0, 48, 67), new Point(0, 0));
+			
+			//Load the sprites for the deck
+			Deck.spriteSheet = new Global.DeckSpriteSheet();
+			//And the menuCharDisplay
+			MenuCharacterDisplay.spriteSheet = new Global.StartingChars();
+			//And the lessonButtons
+			LessonButton.spriteSheet = new Global.LessonSelect();
 		}
 	}
 }

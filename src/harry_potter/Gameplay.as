@@ -36,6 +36,7 @@ package harry_potter
 			player.oppositePlayer = player2;
 			player2.oppositePlayer = player;
 			
+			//TODO - Set up some layers for this screen
 		}
 	}
 }

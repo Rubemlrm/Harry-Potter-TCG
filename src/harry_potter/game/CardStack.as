@@ -92,7 +92,6 @@ package harry_potter.game
 		}
 		
 		public function sort():void {
-			//var length:int = cards.length; //loop invariant
 			var temp:Card;
 			for (var i:int = 0; i < numCards - 1; i++) {
 				for (var j:int = i + 1; j < numCards; j++) {
