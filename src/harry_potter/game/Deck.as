@@ -47,7 +47,7 @@ package harry_potter.game
 			var temp:Card;
 			
 			for (var i:int = 0; i < numCards; i++) {
-				rand = Math.random() * numCards;
+				rand = i + Math.random() * (numCards-i);
 				temp = cards[i];
 				cards[i] = cards[rand];
 				cards[rand] = temp;
