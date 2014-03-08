@@ -109,7 +109,7 @@ package harry_potter.game
 			switch(type) {
 				case "Lesson":
 					lesson_provides = new Array(cardName, 1); //cardName also corresponds to lessonType for lessons, every lesson only provides 1 (unless wand shop is played).
-					toolTipTitle = cardName;
+					toolTipTitle = cardName ;
 					break;
 				case "Creature":
 					lessons_required = new Array(LessonTypes.CARE_OF_MAGICAL_CREATURES, int(xmlData.numRequiredLessons));
@@ -121,6 +121,10 @@ package harry_potter.game
 					health = int(xmlData.health);
 					damageWhenPlayed = int(xmlData.damageDealtWhenPlayed);
 					
+					toolTipTitle = cardName + "\nRequired Lessons: " + lessons_required[1];
+					break;
+				case "Spell":
+					lessons_required = new Array(xmlData.requiredLessonType, int(xmlData.numRequiredLessons));
 					toolTipTitle = cardName + "\nRequired Lessons: " + lessons_required[1];
 					break;
 			}
