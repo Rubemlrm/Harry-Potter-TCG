@@ -14,7 +14,6 @@ Planned Features
 To-Do List
 ----------
 
-* Change deck graphic implementation to aggregation (as opposed to inheriting from Sprite in CardStack)
 * Basic spell cards (damaging).
 * Spell cards requiring more input from the player (i.e. Diffindo).
 * Turns.
