@@ -2,6 +2,7 @@ package harry_potter.game
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.Sprite;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import harry_potter.assets.Global;
@@ -13,6 +14,7 @@ package harry_potter.game
 		
 		//Sprite sheet for the deck stack animations, will be instantiated in main
 		public static var spriteSheet:Bitmap;
+		
 		private static const SPRITE_WIDTH:uint = 57;
 		private static const SPRITE_HEIGHT:uint = 76;
 		
@@ -20,11 +22,16 @@ package harry_potter.game
 		
 		private var mainLesson:String;
 		
+		public var deckGraphic:Sprite;
+		
 		public function Deck() {
 			super();
 			
+			deckGraphic = new Sprite();
 			gfx = new Bitmap(new BitmapData(SPRITE_WIDTH, SPRITE_HEIGHT));
-			addChild(gfx);
+			deckGraphic.useHandCursor = true;
+			deckGraphic.buttonMode = true;
+			deckGraphic.addChild(gfx);
 			updateGraphic();
 		}
 		

@@ -131,7 +131,7 @@ package harry_potter.game
 			if (deck.getNumCards() == 0 || thisCard == null) {
 				//lose!
 				Global.console.print("Deck is out of cards!");
-				removeChild(deck);
+				removeChild(deck.deckGraphic);
 				return;
 			}
 			
@@ -169,7 +169,7 @@ package harry_potter.game
 				if (deck.getNumCards() == 0 || card == null) {
 					//lose!
 					Global.console.print("Deck is out of cards!");
-					removeChild(deck);
+					removeChild(deck.deckGraphic);
 					return;
 				}
 				
@@ -399,10 +399,12 @@ package harry_potter.game
 		
 		private function initDeck():void {
 			deck.shuffle();
-			deck.x = DECK_X;
-			deck.y = DECK_Y;
-			addChild(deck);
-			deck.addEventListener(MouseEvent.CLICK, draw);
+			
+			deck.deckGraphic.x = DECK_X;
+			deck.deckGraphic.y = DECK_Y;
+			addChild(deck.deckGraphic);
+			
+			deck.deckGraphic.addEventListener(MouseEvent.CLICK, draw);
 		}
 		
 		private function drawInitialHand():void 

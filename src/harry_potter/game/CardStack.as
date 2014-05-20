@@ -8,7 +8,7 @@ package harry_potter.game
 	
 	 //may need to extend a sprite in order to accomodate for the Deck
 	 //alternatively, we can handle the deck animations entirely in the Player class and forget about this.
-	public class CardStack extends Sprite {
+	public class CardStack {
 		
 		protected var cards:Vector.<Card>;
 		protected var numCards:int;
@@ -20,9 +20,6 @@ package harry_potter.game
 			//Max stack size is always 60 since that's the maximum number of cards a deck may have.
 			cards = new Vector.<Card>(60, true);
 			numCards = 0;
-			
-			useHandCursor = true;
-			this.buttonMode = true;
 		}
 		
 		/**
@@ -56,7 +53,7 @@ package harry_potter.game
 			return true;
 		}
 		
-		override public function toString():String {
+		public function toString():String {
 			var result:String = "";
 			//var length:int = cards.length; //loop invariant
 			
