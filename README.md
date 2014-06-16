@@ -1,7 +1,5 @@
 **This version of the game has now been deprecated**
-
 Please follow the new version running in the Unity Engine! 
-
 [Click Here](https://github.com/StefanoFiumara/Harry-Potter-Unity) if you're interested!
 
 Harry Potter TCG
