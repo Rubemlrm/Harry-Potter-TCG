@@ -11,10 +11,7 @@ Planned Features
 * A basic tutorial system for introducing a new player to the game, this will have separate mechanics to walk the player through how the card game works and will probably include a pre-built deck to ease the player into the concept.
 * A progress system to track the player's achievements and wins/losses against the AI, maybe an achievement system to track the player's various accomplishments in each game.
 
-To-Do List
-----------
 
-* Basic spell cards (damaging).
-* Spell cards requiring more input from the player (i.e. Diffindo).
-* Turns.
-* Basic A.I. logic tree.
+This version of the game has now been deprecated
+------------------------------------------------
+Please follow the new version running in the Unity Engine, [Click Here](https://github.com/StefanoFiumara/Harry-Potter-Unity) if you're interested!
